@@ -1,12 +1,12 @@
 import WebSocket, { WebSocketServer } from "ws";
-
-interface Peer extends WebSocket {
+import { IncomingMessage } from "http";
+export interface Peer extends WebSocket {
   peerUrl: string;
 }
 
-type PeerEvent<T = any> = { event: string; data: T };
+export type PeerEvent<T = any> = { event: string; data: T };
 
-function isPeerEvent(obj: any): obj is PeerEvent {
+export function isPeerEvent(obj: any): obj is PeerEvent {
   return (
     obj &&
     typeof obj === "object" &&
@@ -15,19 +15,19 @@ function isPeerEvent(obj: any): obj is PeerEvent {
   );
 }
 
-type EventHandler<T = any> = (peer: Peer, data: T) => void;
+export type EventHandler<T = any> = (peer: Peer, data: T) => void;
 
-class PeerManager {
+export class PeerManager {
   private peers: Peer[] = [];
   private eventHandlers: Map<string, EventHandler> = new Map();
 
-  current_node_url = "";
-  server: null | WebSocket.Server = null;
+  private current_node_url = "";
+  private server: WebSocketServer | null = null;
 
   constructor(current_node_url: string) {
     this.current_node_url = current_node_url;
     this.server = new WebSocketServer({ noServer: true });
-
+    this.addPeer = this.addPeer.bind(this);
     this.server.on("connection", (client: Peer) => {
       client.send(
         JSON.stringify({
@@ -93,7 +93,12 @@ class PeerManager {
   registerEvent<T>(event: string, handler: EventHandler<T>) {
     this.eventHandlers.set(event, handler as EventHandler);
   }
-
+  public getServer(): WebSocketServer | null {
+    return this.server;
+  }
+  public getPeers(): Array<Peer> | [] {
+    return this.peers;
+  }
   broadcast<T>(event: string, data: T) {
     const message = JSON.stringify({ event, data });
     this.peers.forEach((peer) => {

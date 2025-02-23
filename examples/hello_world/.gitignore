@@ -1,0 +1,4 @@
+node_modules/
+examples/hello_world/node_modules/
+examples/hello_world/.env
+.env
