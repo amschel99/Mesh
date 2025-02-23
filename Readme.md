@@ -169,3 +169,189 @@ setTimeout(() => this.addPeer(peerUrl), 5000);
 This system isn’t just a **WebSocket peer manager**—it’s the blueprint for **next-generation decentralized applications**. Whether for **secure key management, real-time messaging, IoT networking, or blockchain node discovery**, **PeerManager** unlocks the **true potential of decentralized networking**.
 
 By refining its **security, scalability, and efficiency**, this framework can power **unstoppable, self-healing, and infinitely scalable** networks—shaping the future of **decentralized computing**. 🚀
+
+## How to build networks with custom business logics using this library
+
+### **1. Node Discovery**
+
+- Nodes automatically **discover and connect to each other** without needing a central server.
+- Uses a **gossip protocol** to share peer lists and expand the network dynamically.
+
+### **2. Message Exchange**
+
+- Nodes can **send and receive arbitrary JSON-encoded messages**.
+- You define the **events** (e.g., `FILE_UPLOAD`, `CHAT_MESSAGE`) and the **payloads** (e.g., file data, text).
+
+### **3. Extensibility**
+
+- You write the **business logic** for your specific use case (e.g., file storage, AI training).
+- The library handles the **networking layer**, so you can focus on what makes your app unique.
+
+---
+
+## **How Does It Work?**
+
+### **1. Define Your Events**
+
+- **Events** are the actions your nodes can perform (e.g., `FILE_UPLOAD`, `FILE_DOWNLOAD`).
+- Each event has a **JSON payload** that contains the necessary data (e.g., file name, file content).
+
+Example:
+
+```typescript
+{
+  event: "FILE_UPLOAD",
+  data: {
+    fileName: "example.txt",
+    fileContent: "Hello, world!"
+  }
+}
+```
+
+### **2. Register Event Handlers**
+
+Use `registerEvent` to define how your nodes should respond to specific events.
+
+Example:
+
+```typescript
+manager.registerEvent("FILE_UPLOAD", (peer, data) => {
+  console.log(`Received file: ${data.fileName}`);
+  saveFileToDisk(data.fileName, data.fileContent);
+});
+```
+
+### **3. Broadcast Events**
+
+Use `broadcast` to send events to all connected peers.
+
+Example:
+
+```typescript
+manager.broadcast("FILE_UPLOAD", {
+  fileName: "example.txt",
+  fileContent: "Hello, world!",
+});
+```
+
+### **4. Discover Peers**
+
+Nodes automatically discover and connect to each other using the `KNOWN_PEERS` and `REQUEST_KNOWN_PEERS` events.
+
+---
+
+## **Example: Building a Decentralized File Storage System**
+
+Let’s say you want to build a P2P file storage system where users can upload and download files. Here’s how you’d use the Mesh Protocol library:
+
+### **1. Define Your Events**
+
+- `FILE_UPLOAD`: Upload a file to the network.
+- `FILE_DOWNLOAD`: Request a file from the network.
+- `FILE_RESPONSE`: Send the requested file back to the requester.
+
+### **2. Register Event Handlers**
+
+```typescript
+// Handle file uploads
+manager.registerEvent("FILE_UPLOAD", (peer, data) => {
+  saveFileToDisk(data.fileName, data.fileContent);
+  console.log(`File saved: ${data.fileName}`);
+});
+
+// Handle file download requests
+manager.registerEvent("FILE_DOWNLOAD", (peer, data) => {
+  const fileContent = readFileFromDisk(data.fileName);
+  peer.send(
+    JSON.stringify({
+      event: "FILE_RESPONSE",
+      data: { fileName: data.fileName, fileContent },
+    })
+  );
+});
+```
+
+### **3. Broadcast Events**
+
+```typescript
+// Upload a file
+manager.broadcast("FILE_UPLOAD", {
+  fileName: "example.txt",
+  fileContent: "Hello, world!",
+});
+
+// Download a file
+manager.broadcast("FILE_DOWNLOAD", {
+  fileName: "example.txt",
+});
+```
+
+### **4. Run Your Network**
+
+Start multiple nodes and watch them discover each other and exchange files.
+
+Use the `examples` folder in the repository as a starting point.
+
+---
+
+## **Why Use This Library?**
+
+### **1. Decentralized by Design**
+
+- No central servers – nodes connect directly to each other.
+- Resilient to failures – the network heals itself if nodes go offline.
+
+### **2. Easy to Extend**
+
+- Add new events and business logic without modifying the core library.
+- Perfect for building custom P2P applications.
+
+### **3. Lightweight and Fast**
+
+- Built on WebSocket for low-latency communication.
+- Minimal overhead – ideal for resource-constrained devices.
+
+---
+
+## **Getting Started**
+
+### **1. Install the Library**
+
+```bash
+npm install mesh-protocol
+```
+
+### **2. Check Out the Examples**
+
+The `examples` folder contains template code to help you get started.
+
+Use it as a foundation for your own project.
+
+### **3. Define Your Business Logic**
+
+- Decide on the events your nodes will use.
+- Write the handlers for those events.
+
+### **4. Run Your Network**
+
+Start multiple nodes and watch them discover each other and exchange messages.
+
+---
+
+## **What Can You Build?**
+
+- **Decentralized File Storage**: Share files across a P2P network.
+- **P2P Messaging**: Send messages directly between users.
+- **Distributed AI**: Train models across multiple devices.
+- **IoT Networks**: Connect and manage smart devices.
+- **Blockchain Node Discovery**: Sync blockchain data without central servers.
+
+---
+
+## **Next Steps**
+
+- **Explore the Examples**: Dive into the `examples` folder to see the library in action.
+- **Define Your Events**: Decide what actions your nodes will perform.
+- **Build Your App**: Write the business logic and start your network.
+
+The **Mesh Protocol** library is your gateway to building decentralized, scalable, and resilient networks. **What will you create? 🚀**

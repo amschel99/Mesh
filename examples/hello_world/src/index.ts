@@ -31,6 +31,7 @@ setInterval(() => {
 manager.registerEvent("HELLO_WORLD", (peer, data) => {
   console.log(`Received some data :${JSON.stringify(data)} from ${peer.url}`);
 });
+
 //broadcast events to other peers
 manager.broadcast(
   "HELLO_WORLD",
