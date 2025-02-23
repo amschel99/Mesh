@@ -166,8 +166,6 @@ setTimeout(() => this.addPeer(peerUrl), 5000);
 - Use **cryptographic signatures** to authenticate messages.
 - Implement **checksum validation** to detect tampered data.
 
-## Conclusion: A New Era of Decentralized Networks
-
 This system isn’t just a **WebSocket peer manager**—it’s the blueprint for **next-generation decentralized applications**. Whether for **secure key management, real-time messaging, IoT networking, or blockchain node discovery**, **PeerManager** unlocks the **true potential of decentralized networking**.
 
 By refining its **security, scalability, and efficiency**, this framework can power **unstoppable, self-healing, and infinitely scalable** networks—shaping the future of **decentralized computing**. 🚀
