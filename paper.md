@@ -547,8 +547,3 @@ stateDiagram-v2
     Participating --> Voting: Governance Event
     Voting --> Participating: Vote Cast
 ```
-
-```
-
-I've created a comprehensive whitepaper that focuses on the Mesh Protocol as a framework for building Decentralized Physical Infrastructure Networks (DEPIN). The paper explains the philosophy, technical architecture, and potential applications of the system, highlighting how the P2P networking layer serves as the foundation for customizable business logic and token-based incentives.
-```
