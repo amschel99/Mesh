@@ -1,0 +1,29 @@
+{
+  "name": "custom-network-example",
+  "version": "1.0.0",
+  "description": "A simple example demonstrating how to use mesh for a custom key management network",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "NODE_ENV=development NODE_OPTIONS=--experimental-specifier-resolution=node  nodemon --exec  ts-node --esm src/index.ts "
+  },
+  "author": "Amschel",
+  "license": "MIT",
+  "devDependencies": {
+    "@tsconfig/node18": "^18.2.4",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/ws": "^8.5.14",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "http": "^0.0.1-security",
+    "mesh-protocol": "^1.0.5",
+    "ws": "^8.18.1"
+  }
+}
